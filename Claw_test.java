@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.s2021;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -24,8 +24,8 @@ public class Claw_test extends OpMode {
     @Override
     public void init() {
 
-        clawLeft = hardwareMap.get(Servo.class, "s0");
-        clawRight = hardwareMap.get(Servo.class, "s1");
+        clawLeft = hardwareMap.get(Servo.class, "Es1");
+        clawRight = hardwareMap.get(Servo.class, "Es2");
   
         telemetry.update();
     }
@@ -48,12 +48,12 @@ public class Claw_test extends OpMode {
         
         if (gamepad2.right_bumper) {
             
-            clawLeft.setPosition(0);
-            clawRight.setPosition(0.51);
+           clawLeft.setPosition(0.2);
+           clawRight.setPosition(0);
         } else if (gamepad2.left_bumper) {
             
-            clawLeft.setPosition(0.14);
-            clawRight.setPosition(0.33);
+           clawLeft.setPosition(0);
+          clawRight.setPosition(0.2);
         }
         
     } 

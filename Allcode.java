@@ -30,7 +30,7 @@ public class Allcode extends OpMode {
     private double tclawCenter = 0.5;                //Claw Center Servo initial position
     private double planeTarget = 0.5;                //Airplane Servo initial position
     private int on_off1 = 0;
-	private int on_off2 = 0;
+    private int on_off2 = 0;
     
     @Override
     /*At the beginning, all motors and servos are set at the init status.
@@ -64,7 +64,7 @@ public class Allcode extends OpMode {
         
         airplane = hardwareMap.get(Servo.class, "s5");
         initPosition();
-		
+        
         telemetry.addData("Status", "Initialized");
         telemetry.update();
     }
@@ -129,9 +129,9 @@ public class Allcode extends OpMode {
     
     //To grab the pixel, move both primary and secondary single bars to their positions
     private void grabPixel() {
-         target2 = 1000;
+        target2 = 990;
         target0 = 0 - target2;
-        target1 = 900;
+        target1 = 860;
         liftmotor0.setTargetPosition(target0);
         liftmotor1.setTargetPosition(target1);
         liftmotor2.setTargetPosition(target2);
@@ -141,13 +141,13 @@ public class Allcode extends OpMode {
         liftmotor0.setPower(0.1);
         liftmotor1.setPower(0.1);
         liftmotor2.setPower(0.1);
-		clawCenter.setPosition(0.20);
+        clawCenter.setPosition(0.20);
         telemetry.addData("Status: ", "Press Gamepad2.x to grab a pixel");
         telemetry.update();
     } 
     
     //To move both primary and secondary single bars to their initial positions
-	//To move all servos to their initial positions
+    //To move all servos to their initial positions
     private void initPosition() {
         target0 = 0;
         target1 = 0;
@@ -220,6 +220,8 @@ public class Allcode extends OpMode {
         double strafe;                // Power for left and right motion
         double rotateLeft;            // Power for the robot counterclockwise rotation
         double rotateRight;            // Power for the robot clockwise rotation
+        double liftmotor1_up;
+        double liftmotor1_down;
         //int intake;
 
         double drive2;
@@ -229,7 +231,8 @@ public class Allcode extends OpMode {
         strafe = gamepad1.left_stick_x;
         rotateLeft = gamepad1.left_trigger;
         rotateRight = gamepad1.right_trigger;
-        //intake = gamepad2.left_trigger;
+        liftmotor1_up = gamepad2.left_trigger;
+        liftmotor1_down = gamepad2.right_trigger;
 
         drive2 = -gamepad1.right_stick_y;
         strafe2 = gamepad1.right_stick_x;
@@ -288,7 +291,16 @@ public class Allcode extends OpMode {
           clawCenter.setPosition(tclawCenter);
           telemetry.addData("Status: ", "Press Gamepad2.dpad_down to rotate claws downwards");
           telemetry.update();
-        
+        } else if (liftmotor1_up != 0) {
+          target1 = target1 + 10;
+          liftmotor1.setTargetPosition(target1);
+          liftmotor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+          liftmotor1.setPower(0.1);
+        } else if (liftmotor1_down != 0) {
+          target1 = target1 - 10;
+          liftmotor1.setTargetPosition(target1);
+          liftmotor1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+          liftmotor1.setPower(0.1);
         } else if (gamepad1.dpad_up) {        //when dpad-up of gamepad 1 is pressed, the robot raises both bars to get into hanging position
             
            target2 = 500;
@@ -368,11 +380,11 @@ public class Allcode extends OpMode {
             
         } else if (gamepad1.right_bumper) {    //when the right_bumper of gamepad 2 is pressed, claws are closed
             
-			if (on_off1 % 2 == 0)
+            if (on_off1 % 2 == 0)
                 closeRightClaw();
             else
                 openRightClaw();
-			
+            
             on_off1 = on_off1+1;   
 
         } else if (gamepad1.left_bumper) {    //when the left_bumper of gamepad2 is pressed, claws are opened
@@ -381,7 +393,7 @@ public class Allcode extends OpMode {
                 closeLeftClaw();
             else
                 openLeftClaw();
-			
+            
             on_off2 = on_off2+1;  
            
         

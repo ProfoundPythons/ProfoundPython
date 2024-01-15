@@ -33,11 +33,11 @@ public class BlueLeftSideAuto extends LinearOpMode {
     // For example: private static final String TFOD_MODEL_ASSET = "MyModelStoredAsAsset.tflite";
     // TFOD_MODEL_FILE points to a model file stored onboard the Robot Controller's storage,
     // this is used when uploading models directly to the RC using the model upload interface.
-    private static final String TFOD_MODEL_FILE = "/sdcard/FIRST/tflitemodels/Teamprop.tflite";
+    private static final String TFOD_MODEL_FILE = "/sdcard/FIRST/tflitemodels/Blue.tflite";
     // Define the labels recognized in the model for TFOD (must be in training order!)
     private static final String[] LABELS = {
-       "Redprop",
-	   "Blueprop"
+       "Red",
+       "Blue"
     };
 
     /**
@@ -90,9 +90,10 @@ public class BlueLeftSideAuto extends LinearOpMode {
             sleep(1000);
             initPosition();
             sleep(5000);
-            gyroTurn(90);
-            move(8000,0,0,0.7,500);
-            move(4000,0,0,0.7,500);
+            gyroTurn(-110);
+            move(-8000,0,0,0.7,500);
+            move(-4100,0,0,0.7,500);
+            openRightClaw();
         }
         else if (loc == 2)            //center
         {
@@ -103,9 +104,10 @@ public class BlueLeftSideAuto extends LinearOpMode {
             sleep(1000);
             initPosition();
             sleep(5000);
-            gyroTurn(90);
-            move(6000,0,0,0.7,500);
-            move(8000,0,0,0.7,500);
+            gyroTurn(-110);
+            move(-6000,0,0,0.7,500);
+            move(-8000,0,0,0.7,500);
+            openRightClaw();
         }
         else if (loc == 3){                //right
             move(250,0,0,0.4,500);
@@ -116,9 +118,10 @@ public class BlueLeftSideAuto extends LinearOpMode {
             sleep(1000);
             initPosition();
             sleep(5000);
-            gyroTurn(90);
-            move(6000,0,0,0.7,500);
-            move(6000,0,0,0.7,500);
+            gyroTurn(-110);
+            move(-6000,0,0,0.7,500);
+            move(-6000,0,0,0.7,500);
+            openRightClaw();
         }
 
         telemetry.update();
@@ -208,9 +211,9 @@ public class BlueLeftSideAuto extends LinearOpMode {
     
     //To grab the pixel, move both primary and secondary single bars to their positions
     private void grabPixel() {
-        target2 = 975;
+        target2 = 990;
         target0 = 0 - target2;
-        target1 = 900;
+        target1 = 860;
         liftmotor0.setTargetPosition(target0);
         liftmotor1.setTargetPosition(target1);
         liftmotor2.setTargetPosition(target2);
@@ -386,8 +389,8 @@ public class BlueLeftSideAuto extends LinearOpMode {
 
         List<Recognition> currentRecognitions = tfod.getRecognitions();
         telemetry.addData("# Objects Detected", currentRecognitions.size());
-		telemetry.update();
-		
+        telemetry.update();
+        
         while (opModeIsActive() && j < iTimeOut) {
             // Step through the list of recognitions and display info for each one.
             for (Recognition recognition : currentRecognitions) {
@@ -402,19 +405,19 @@ public class BlueLeftSideAuto extends LinearOpMode {
                 if (x < 182)
                 {
                     telemetry.addData("I am at", "Left");
-					telemetry.update();
+                    telemetry.update();
                     return 1;
                 }
                 else if (x > 344)
                 {
                     telemetry.addData("I am at", "Right");
-					telemetry.update();
+                    telemetry.update();
                     return 3;
                 }
                 else
                 {
                     telemetry.addData("I am at", "Center");
-					telemetry.update();
+                    telemetry.update();
                     return 2;
                 }
                 
@@ -426,7 +429,7 @@ public class BlueLeftSideAuto extends LinearOpMode {
         }
         
         telemetry.addData("I can't find team prop so choose default location", "Left");
-		telemetry.update();
+        telemetry.update();
         return 1;
 
     } 
